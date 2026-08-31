@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>行至南疆 · 方知西域 — 喀什环线 7 天自驾 · 互动地图</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background:#f7f4ef; color:#292524; line-height:1.6;
+  }
+  .wrap { max-width:1080px; margin:0 auto; padding:0 16px 48px; }
+
+  /* ---------- header ---------- */
+  header { text-align:center; padding:36px 8px 20px; }
+  header h1 { font-size:clamp(22px,4vw,34px); letter-spacing:.12em; color:#7c2d12; }
+  header h1 .dot { color:#b45309; }
+  header .sub { margin-top:8px; font-size:14px; color:#78716c; }
+  header .sub b { color:#44403c; }
+
+  /* ---------- stat cards ---------- */
+  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin:18px 0 14px; }
+  .stat { background:#fff; border-radius:14px; padding:14px 10px; text-align:center; box-shadow:0 1px 4px rgba(68,64,60,.08); border-top:3px solid #b45309; }
+  .stat .num { font-size:clamp(20px,3vw,26px); font-weight:700; color:#7c2d12; }
+  .stat .num small { font-size:13px; font-weight:600; color:#a8a29e; }
+  .stat .lbl { font-size:12px; color:#78716c; margin-top:2px; }
+
+  /* ---------- map ---------- */
+  #map { height:min(72vh,680px); min-height:420px; border-radius:16px; box-shadow:0 4px 18px rgba(68,64,60,.15); z-index:1; }
+  .map-note { text-align:center; font-size:12px; color:#a8a29e; margin-top:8px; }
+
+  .legend { background:rgba(255,255,255,.94); border-radius:12px; padding:10px 12px; box-shadow:0 2px 8px rgba(0,0,0,.18); font-size:12px; line-height:1.9; }
+  .legend .it { display:flex; align-items:center; gap:8px; white-space:nowrap; }
+  .legend .sw { width:12px; height:12px; border-radius:50%; flex:none; box-shadow:inset 0 0 0 2px rgba(255,255,255,.7); }
+  .legend .base { margin-top:6px; padding-top:6px; border-top:1px dashed #d6d3d1; display:flex; gap:6px; }
+  .legend .base button { font-size:12px; border:1px solid #d6d3d1; background:#fff; border-radius:8px; padding:2px 8px; cursor:pointer; }
+  .legend .base button.on { background:#7c2d12; color:#fff; border-color:#7c2d12; }
+
+  .daybar { background:rgba(255,255,255,.94); border-radius:12px; padding:8px 10px; box-shadow:0 2px 8px rgba(0,0,0,.18); display:flex; flex-wrap:wrap; gap:6px; max-width:340px; }
+  .daybar button { font-size:12px; border:1px solid #e7e5e4; background:#fff; border-radius:999px; padding:3px 10px; cursor:pointer; color:#57534e; }
+  .daybar button.on { background:#b45309; color:#fff; border-color:#b45309; }
+
+  .marker { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; color:#fff; border:2px solid #fff; box-shadow:0 2px 6px rgba(0,0,0,.35); }
+  .marker.dec { box-shadow:0 0 0 3px rgba(217,119,6,.45), 0 2px 6px rgba(0,0,0,.35); animation:pulse 1.6s infinite; }
+  @keyframes pulse { 0%,100% { box-shadow:0 0 0 3px rgba(217,119,6,.45), 0 2px 6px rgba(0,0,0,.35); } 50% { box-shadow:0 0 0 8px rgba(217,119,6,.12), 0 2px 6px rgba(0,0,0,.35); } }
+
+  .leaflet-popup-content { font-size:13px; margin:10px 12px; width:auto !important; }
+  .leaflet-popup-content b { font-size:14px; }
+  .ptag { display:inline-block; font-size:11px; color:#fff; border-radius:4px; padding:0 6px; margin-left:6px; vertical-align:1px; }
+  .ptime { color:#b45309; font-weight:600; }
+  .ptip { color:#78716c; font-size:12px; }
+
+  .decbtn { display:block; width:100%; margin:5px 0 0; padding:5px 10px; font-size:12.5px; text-align:left; border:1px solid #e7e5e4; border-radius:8px; background:#fff; cursor:pointer; color:#44403c; }
+  .decbtn:hover { border-color:#d97706; background:#fffbeb; }
+  .decbtn.sel { background:#d97706; border-color:#d97706; color:#fff; font-weight:600; }
+  .decbtn .cur { font-size:11px; margin-left:4px; }
+
+  /* ---------- sections ---------- */
+  section { margin-top:34px; background:#fff; border-radius:16px; padding:22px 24px; box-shadow:0 1px 4px rgba(68,64,60,.08); }
+  h2 { font-size:19px; color:#7c2d12; margin-bottom:14px; letter-spacing:.05em; }
+  h3 { font-size:15px; color:#92400e; margin:16px 0 8px; }
+
+  table { width:100%; border-collapse:collapse; font-size:13.5px; }
+  th, td { padding:9px 10px; border-bottom:1px solid #f0ebe4; text-align:left; vertical-align:top; }
+  th { background:#faf6f0; color:#7c2d12; font-weight:600; white-space:nowrap; }
+  tbody tr { cursor:pointer; transition:background .15s; }
+  tbody tr:hover { background:#faf6f0; }
+  tbody tr.on { background:#fdf3e7; }
+  td.d { white-space:nowrap; font-weight:700; color:#b45309; }
+  td .decmark { color:#b45309; font-weight:600; }
+
+  ul, ol { padding-left:20px; }
+  li { margin:4px 0; font-size:13.5px; }
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:0 28px; }
+
+  details { border:1px solid #eee4d8; border-radius:12px; padding:10px 16px; margin-top:12px; background:#fffdf9; }
+  details summary { font-weight:600; color:#92400e; cursor:pointer; font-size:14px; }
+  details ol { margin-top:8px; }
+
+  footer { text-align:center; font-size:12px; color:#a8a29e; margin-top:36px; line-height:1.8; }
+
+  @media (max-width:640px) {
+    .two-col { grid-template-columns:1fr; }
+    #map { height:60vh; min-height:380px; }
+    section { padding:16px 14px; }
+    .daybar { max-width:230px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>行至南疆 <span class="dot">·</span> 方知西域</h1>
+    <div class="sub">
+      <b>喀什取车 / 还车 · 自驾环线</b> · 2026.10.1 – 10.7 · 喀什 → 英吉沙 → 莎车 → 塔县 → 帕米尔<br>
+      地图可缩放拖动 · 点击金色 🔀 圆点选择行程分支 · 路线 / 摘要 / 里程实时更新 · 左上角按天筛选
+    </div>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><div class="num">7<small> 天 6 晚</small></div><div class="lbl">10.1 取车 – 10.7 还车</div></div>
+    <div class="stat"><div class="num" id="statKm">≈1,225<small> 公里</small></div><div class="lbl" id="statKmLbl">按当前选择合计</div></div>
+    <div class="stat"><div class="num">≈3,500<small> 元/人</small></div><div class="lbl">4人拼车 · 食宿油费门票（不含机票）</div></div>
+    <div class="stat"><div class="num">5<small> 个</small></div><div class="lbl">可选决策点（金色圆点）</div></div>
+    <div class="stat"><div class="num">≈4,700<small> m</small></div><div class="lbl">最高海拔（红其拉甫国门）</div></div>
+  </div>
+
+  <div id="map"></div>
+  <div class="map-note">底图：高德地图（图例区可切换 行政区划图 / 影像地形图）· 点位与路线为示意，以实际路况为准</div>
+
+  <section>
+    <h2>📌 行程摘要（按当前选择实时更新 · 点击行可在地图中定位该天）</h2>
+    <table id="sumTable">
+      <thead><tr><th>天</th><th>路线</th><th>亮点 / 决策</th></tr></thead>
+      <tbody>
+        <tr data-day="1"><td class="d">D1 · 10.1</td><td>飞抵喀什 → 机场取车</td><td>办理入住；晚上古城夜市自由活动</td></tr>
+        <tr data-day="2"><td class="d">D2 · 10.2</td><td>喀什城区一日</td><td>艾提尕尔清真寺 → 古城西城/东城 → 香妃园 → 汗巴扎夜市</td></tr>
+        <tr data-day="3"><td class="d">D3 · 10.3</td><td>喀什 → 英吉沙 → 莎车 →（N39 沙漠）→ 莎车</td><td id="hl3"></td></tr>
+        <tr data-day="4"><td class="d">D4 · 10.4</td><td>莎车 → 塔县（两种走法）</td><td id="hl4"></td></tr>
+        <tr data-day="5"><td class="d">D5 · 10.5</td><td>塔县 → 盘龙古道 →（红其拉甫国门）→ 塔合曼 → 塔县</td><td id="hl5"></td></tr>
+        <tr data-day="6"><td class="d">D6 · 10.6</td><td>塔县 → 白沙湖 → 慕士塔格 → 奥依塔克 → 喀什</td><td id="hl6"></td></tr>
+        <tr data-day="7"><td class="d">D7 · 10.7</td><td>喀什 → 机场还车返程</td><td>直飞上海 / 杭州（以航司及 12306 发布为准）</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>🚗 自驾要点</h2>
+    <ul>
+      <li><b>租车</b>：喀什机场 / 城区取还，建议 SUV（帕米尔路段底盘更从容）；国庆为旺季，<b>提前 2–3 周预订</b>，验车拍照留底</li>
+      <li><b>边防证（必办）</b>：前往塔县需办理，免费——户籍地出入境管理部门可办，或到喀什后办理；去红其拉甫国门需注明，<b>出发前确认口岸对游客开放及预约要求</b></li>
+      <li><b>加油</b>：喀什出发前加满；塔县有加油站，油箱过半就加；帕米尔沿线加油站少，勿抱侥幸</li>
+      <li><b>路况与限速</b>：G314 中巴友谊公路全程柏油但<b>区间测速密集</b>，按限速开；塔莎古道窄路临崖、会车小心，雨后落石不进；盘龙古道 10 月可能因雪临时封路，出发当天再确认</li>
+      <li><b>高原驾驶</b>：塔县 3100m 以上缓给油、少急刹；驾驶员高反比乘客更危险，不适立即换人或下撤</li>
+      <li><b>导航与信号</b>：山区多无信号，<b>提前下载离线地图</b>；无人机在边境沿线<b>严格禁飞</b></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>💰 预算参考（4 人 1 车 · 每人）</h2>
+    <div class="two-col">
+      <div>
+        <table>
+          <thead><tr><th>项目</th><th>估算</th></tr></thead>
+          <tbody>
+            <tr><td>租车 SUV × 7 天 ÷4</td><td>≈ 700 元</td></tr>
+            <tr><td>油费 + 过路费 ÷4</td><td>≈ 250 元</td></tr>
+            <tr><td>住宿 6 晚（2 人间 ÷2）</td><td>≈ 900 元</td></tr>
+            <tr><td>门票体验（见右）</td><td>≈ 550 元</td></tr>
+            <tr><td>餐饮 7 天</td><td>≈ 1,000 元</td></tr>
+            <tr><td><b>合计（不含机票）</b></td><td><b>≈ 3,400 – 3,600 元</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h3>门票明细（约，以现场为准）</h3>
+        <ul>
+          <li>香妃园 ≈30 · 阿曼尼莎汗王陵 ≈30</li>
+          <li>英吉沙土陶体验 ≈30 · 莎车十二木卡姆演出（视排期）</li>
+          <li>N39 沙漠（含区间车）≈60</li>
+          <li>石头城 + 金草滩 ≈45</li>
+          <li>红其拉甫国门门票 + 接驳车 ≈120</li>
+          <li>白沙湖 ≈40 · 慕士塔格冰川公园（含区间车，不含骑马）≈80–130</li>
+          <li>艾提尕尔清真寺当前公告免费 · 喀拉库勒湖远观免费</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>✈️ 大交通参考</h2>
+    <ul>
+      <li><b>去程 10.1</b>：上海 → 喀什（飞机直达）；杭州 → 喀什（飞机直达）</li>
+      <li><b>返程 10.7</b>：喀什 → 上海（飞机直达）</li>
+      <li>建议<b>上午航班抵达</b>取车从容、<b>中午后航班返程</b>留足还车时间；以航司及 12306 发布为准</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🎒 装备建议（自驾版）</h2>
+    <ol>
+      <li><b>证件</b>：身份证、驾驶证、边防证（塔县）；车辆备好行驶证复印件</li>
+      <li><b>穿搭</b>：速干保暖内衣 + 抓绒衣/羊毛衫 + 防风羽绒服或厚冲锋衣；保暖裤 + 防风外裤；徒步鞋（10 月初塔县夜间可至 0°C 以下）</li>
+      <li><b>自驾装备</b>：充电宝 + 车充、墨镜（雪防盲）、保温杯、雨具（背包防雨罩/雨披）、氧气瓶（塔县可买，每人 2 罐起）、零食饮水（盘龙/国门日午餐自备）</li>
+      <li><b>药品</b>：高原常用药、晕车药（提前吃）、肠胃药、创可贴、防晒霜、润肤霜</li>
+      <li><b>电子</b>：离线地图、相机备用电池、无人机 <b>边境禁飞勿带飞</b></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>💡 Tips & 旅游建议</h2>
+    <ul>
+      <li>白沙湖清晨风小、光线好，D6 建议 09:00 前到</li>
+      <li>国门海拔 4700m：放慢动作、别奔跑拍照；不适立即下撤</li>
+      <li>盘龙古道观景台车多，错峰拍照注意来车</li>
+      <li>餐饮可 AA：拉面群、烤肉群灵活拼餐更有趣</li>
+      <li>伴手礼：干果、核桃、葡萄干、维吾尔花帽、手鼓、地毯/挂毯、特色香料（刀具、酒类注意托运/邮寄规定）</li>
+      <li>夜间结伴出行，保管好个人财物；边境沿线听从边检指挥</li>
+    </ul>
+    <p style="font-size:12px;color:#a8a29e;margin-top:8px">行程可能因天气、封路等客观因素调整，以当日路况和同行商定为准。</p>
+  </section>
+
+  <details>
+    <summary>📋 同行须知 & 免责（点击展开）</summary>
+    <ol>
+      <li>本次为自愿结伴自驾，非商业活动，组织者仅起联络作用；费用 AA，账目公开。</li>
+      <li>驾乘分工提前商定：主驾/副驾轮换，避免单人疲劳驾驶；每 2 小时进服务区休息。</li>
+      <li>所有人自愿参加并自行评估风险，因个人原因退出的已发生费用按实际结算。</li>
+      <li>建议每人自行购买含高原地区的旅游意外险。</li>
+      <li>车辆事故、违章、损坏按租车合同及责任认定处理，同车人协商分摊。</li>
+      <li>高反或突发疾病时立即停止行程就近就医（塔县有人民医院），生命安全永远优先于行程。</li>
+      <li>紧急情况：110 / 120 / 122（交通事故），租车平台道路救援电话存手机。</li>
+    </ol>
+  </details>
+
+  <footer>
+    由公众号「半节奏旅行」《10.01-07 行至南疆 | 方知西域》跟团行程改编为自驾方案 · 里程/预算为估算<br>
+    地图底图 © 高德地图 · 点位坐标为示意位置
+  </footer>
+</div>
+
+<script>
+/* ================= 数据 ================= */
+const CATS = {
+  route : { color:'#2563eb', emoji:'📍', label:'固定行程点' },
+  new   : { color:'#0d9488', emoji:'🆕', label:'自驾新增点' },
+  dec   : { color:'#d97706', emoji:'🔀', label:'可选决策点' },
+  ticket: { color:'#16a34a', emoji:'🎫', label:'含票体验' },
+  food  : { color:'#ea580c', emoji:'🍜', label:'特色餐饮' },
+  stay  : { color:'#7c3aed', emoji:'🏨', label:'住宿点' },
+  alt   : { color:'#dc2626', emoji:'⛰️', label:'高原 / 应急' },
+};
+
+const SPOTS = [
+  { day:1, cat:'route',  name:'喀什机场 · 取车',                pos:[39.543,75.950],  time:'抵达后',      desc:'机场取预订 SUV，验车拍照留底。', tip:'开往市区约 20 分钟' },
+  { day:1, cat:'stay',   name:'喀什 · 入住',                    pos:[39.472,75.985],  time:'下午',        desc:'古城周边办理入住，安顿休整。', tip:'晚上古城夜市自由活动，品尝美食' },
+  { day:2, cat:'route',  name:'艾提尕尔清真寺',                 pos:[39.4690,75.9885], time:'10:00',      desc:'全国最大清真寺之一，喀什地标。', tip:'门票当前景区公告免费' },
+  { day:2, cat:'route',  name:'喀什古城（西城 → 东城）',        pos:[39.4665,75.9960], time:'10:30–',     desc:'2000 余年「古西域城市活化石」，拍照超美。', tip:'开城仪式、职人街、彩虹巷都值得慢逛' },
+  { day:2, cat:'food',   name:'午餐 · 烤包子 / 羊肉串 / 抓饭',  pos:[39.4645,75.9940], time:'13:30',      desc:'古城内美食（自理）。', tip:'' },
+  { day:2, cat:'ticket', name:'香妃园',                         pos:[39.443,76.030],   time:'15:30',      desc:'阿帕克霍加麻扎，经典伊斯兰园林建筑群。', tip:'自驾停车方便' },
+  { day:2, cat:'food',   name:'汗巴扎夜市',                     pos:[39.4655,75.9860], time:'20:00',      desc:'古城边夜市，烤蛋、缸子肉、酸奶刨冰。', tip:'注意饮食卫生，早点休息' },
+  { day:2, cat:'stay',   name:'宿 喀什',                        pos:[39.4745,75.9830], time:'晚',         desc:'喀什城区住宿（第 2 晚）。', tip:'' },
+  { day:3, cat:'ticket', name:'英吉沙 · 土陶制作体验',          pos:[38.930,76.175],   time:'09:30–11:30',desc:'「英吉沙小刀」故乡，体验千年土陶技艺。', tip:'小刀不能带上飞机/火车，可邮寄' },
+  { day:3, cat:'food',   name:'午餐 · 英吉沙烤肉',              pos:[38.933,76.169],   time:'12:00',      desc:'县城烤肉 + 拌面。', tip:'' },
+  { day:3, cat:'ticket', name:'阿曼尼莎汗王陵',                 pos:[38.4175,77.2495], time:'15:00',      desc:'叶尔羌汗国王陵，十二木卡姆整理者长眠于此。', tip:'' },
+  { day:3, cat:'food',   name:'晚餐 · 莎车鸽子汤 / 烤肉',       pos:[38.4160,77.2435], time:'19:00',      desc:'莎车一绝：鸽子汤配薄皮包子。', tip:'' },
+  { day:3, cat:'stay',   name:'宿 莎车',                        pos:[38.4145,77.2405], time:'晚',         desc:'莎车县城住宿。', tip:'' },
+  { day:4, cat:'ticket', name:'莎车 · 十二木卡姆（视排期）',    pos:[38.418,77.246],   time:'上午',       desc:'「十二木卡姆之都」，民俗园演出视当日排期。', tip:'无演出则逛莎车老城、加买清真寺' },
+  { day:4, cat:'new',    name:'石头城 & 金草滩日落',            pos:[37.7735,75.2320], time:'傍晚',       desc:'自驾新增：千年石头城遗址 + 金草滩湿地栈道，日落时分草滩泛金。', tip:'若抵达晚可改次日清晨拍日照金山' },
+  { day:4, cat:'stay',   name:'宿 塔县（塔什库尔干）',          pos:[37.7750,75.2265], time:'晚',         desc:'帕米尔高原石头城县城，海拔约 3100m。', tip:'当晚早休息适应高原；买好氧气瓶、加满油' },
+  { day:5, cat:'food',   name:'晚餐 · 塔县本地餐馆',            pos:[37.7745,75.2315], time:'21:00',      desc:'高原县城风味晚餐后入住。', tip:'' },
+  { day:5, cat:'stay',   name:'宿 塔县',                        pos:[37.7720,75.2260], time:'晚',         desc:'塔县住宿（第 2 晚）。', tip:'' },
+  { day:5, cat:'ticket', name:'塔合曼湿地',                     pos:[37.883,75.247],   time:'16:00',      desc:'塔县最大湿地「高原之肾」，平均海拔 3600m，冰川融水滋养沼泽草甸，又名「神花繁衍之地」。', tip:'背景即慕士塔格连绵雪山' },
+  { day:5, cat:'alt',    name:'应急预案 · 塔县',                pos:[37.768,75.222],   time:'随时',       desc:'高反严重或天气突变：塔县→喀什 290km·约 4.5h 全程柏油；塔县有人民医院、氧吧；盘龙古道遇雪封路改走 G314 直接塔合曼。', tip:'领队 = 本次主驾，不适立即下撤' },
+  { day:6, cat:'ticket', name:'白沙湖',                         pos:[39.06,74.96],     time:'09:00',      desc:'海拔 3300m 的「高原明珠」：白色沙山间一抹湖蓝，倒映山川万物。', tip:'门票已含；清晨风小光线好；午餐游客点自理' },
+  { day:6, cat:'new',    name:'奥依塔克红山谷（顺路）',         pos:[39.13,75.64],     time:'顺路',       desc:'自驾新增：G314 沿线丹霞红岩，短途打卡拍照。', tip:'免费，路边停车注意安全' },
+  { day:6, cat:'food',   name:'晚餐 · 牦牛火锅',                pos:[39.4690,75.9955], time:'19:00',      desc:'回到喀什，高原特色牦牛火锅收尾。', tip:'' },
+  { day:6, cat:'stay',   name:'宿 喀什',                        pos:[39.472,75.985],   time:'晚',         desc:'喀什城区住宿（还车前最后一晚）。', tip:'' },
+  { day:7, cat:'route',  name:'喀什机场 · 还车返程',            pos:[39.546,75.947],   time:'全天',       desc:'加满油还车，直飞上海 / 杭州。', tip:'预留 2h 还车 + 安检；以航司及 12306 信息为准' },
+];
+
+/* ================= 决策点 ================= */
+const DECISIONS = [
+  {
+    key:'n39', day:3, pos:[38.95,77.88], name:'N39 沙漠 · 去不去？',
+    desc:'麦盖提方向塔克拉玛干沙漠 4A 景区（北纬 39° 得名），日落大气；但往返多跑约 120km。',
+    def:'go',
+    opts:{
+      go  :{ label:'✅ 去 N39 看日落', text:'N39 沙漠日落（门票+区间车 ≈60）', km:0,
+             route:[[39.472,75.985],[39.20,76.08],[38.930,76.175],[38.65,76.70],[38.4175,77.2495],[38.68,77.55],[38.95,77.88],[38.68,77.55],[38.4145,77.2405]] },
+      skip:{ label:'⏭️ 不去，莎车早休（次日赶路）', text:'不去 N39，莎车晚餐后早休', km:-120,
+             route:[[39.472,75.985],[39.20,76.08],[38.930,76.175],[38.65,76.70],[38.4175,77.2495],[38.4145,77.2405]] },
+    },
+    fixed:'英吉沙土陶体验、烤肉午餐；阿曼尼莎汗王陵',
+  },
+  {
+    key:'tasha', day:4, pos:[38.35,77.00], name:'莎车 → 塔县 · 怎么走？',
+    desc:'塔莎古道：近、险、野（沿叶尔羌河峡谷，约 190km·5–6h，雨后落石不进）；绕行喀什：远、稳、快（约 480km·7h，全程高等级公路）。',
+    def:'tasha',
+    opts:{
+      tasha :{ label:'🏔️ 塔莎古道（约190km·风景野）', text:'【走法】塔莎古道 约190km·5-6h 临崖窄路', km:0,
+               route:[[38.4145,77.2405],[38.35,77.00],[38.10,76.90],[37.95,76.45],[37.82,75.80],[37.775,75.228]] },
+      detour:{ label:'🛣️ 绕行喀什高速（约480km·路况好）', text:'【走法】绕行喀什 约480km·7h 路况好', km:290,
+               route:[[38.4145,77.2405],[38.65,76.90],[38.95,76.55],[39.20,76.30],[39.40,76.10],[39.46,75.99],[39.13,75.64],[38.60,75.20],[38.05,75.18],[37.775,75.228]] },
+    },
+    fixed:'石头城 & 金草滩日落（到得晚改次日清晨）',
+  },
+  {
+    key:'panlong', day:5, pos:[37.540,75.430], name:'盘龙古道 · 走多少？',
+    desc:'600+ 个 S 弯的网红公路，全程环线约 35km·2.5h；只想打卡可只到观景台即返。10 月可能因雪临时封路。',
+    def:'full',
+    opts:{
+      full :{ label:'🐉 全程环线（35km·2.5h）', text:'盘龙古道全程环线（35km·600+S弯）', km:0 },
+      photo:{ label:'📸 只到观景台打卡', text:'盘龙古道观景台打卡即返', km:-15 },
+    },
+    fixed:'',
+  },
+  {
+    key:'guomen', day:5, pos:[36.848,75.418], name:'红其拉甫国门 · 去/不去？',
+    desc:'中巴边境国门，海拔约 4700m 全程最高点；需边防证 + 提前预约确认开放，往返多跑约 250km，预留半天。',
+    def:'go',
+    opts:{
+      go  :{ label:'✅ 去（边防证+预约·4700m）', text:'红其拉甫国门（需边防证+预约·全程最高海拔）', km:0,
+             route:[[37.775,75.228],[37.66,75.33],[37.540,75.430],[37.62,75.47],[36.99,75.44],[36.848,75.418],[37.30,75.35],[37.65,75.28],[37.883,75.247],[37.775,75.228]] },
+      skip:{ label:'⏭️ 不去，省 250km 留给帕米尔', text:'不去国门（省 250km·半天）', km:-250,
+             route:[[37.775,75.228],[37.66,75.33],[37.540,75.430],[37.60,75.40],[37.70,75.30],[37.883,75.247],[37.775,75.228]] },
+    },
+    fixed:'塔合曼湿地；塔县晚餐',
+  },
+  {
+    key:'mus', day:6, pos:[38.465,75.070], name:'慕士塔格 · 怎么玩？',
+    desc:'「冰山之父」雪线 5200m、128 条冰川。冰川公园含区间车可近观（需原路折返约 40km）；喀拉库勒湖免费远观倒影也是经典机位。',
+    def:'park',
+    opts:{
+      park:{ label:'🧊 冰川公园（区间车·近观）', text:'慕士塔格冰川公园（区间车·不含骑马）', km:0,
+             route:[[37.775,75.228],[37.95,75.20],[38.30,75.15],[38.60,75.02],[39.06,74.96],[38.80,75.03],[38.465,75.07],[38.75,75.20],[39.13,75.64],[39.30,75.72],[39.472,75.985]] },
+      lake :{ label:'🏞️ 喀拉库勒湖免费远观（顺路不折返）', text:'喀拉库勒湖免费远观慕士塔格倒影', km:-40,
+             route:[[37.775,75.228],[37.95,75.20],[38.30,75.15],[38.60,75.02],[39.06,74.96],[38.50,75.03],[38.75,75.20],[39.13,75.64],[39.30,75.72],[39.472,75.985]] },
+    },
+    fixed:'白沙湖（09:00 前）；奥依塔克红山谷顺路；牦牛火锅',
+  },
+];
+
+const BASE_ROUTES = {
+  2:[[39.4690,75.9885],[39.4665,75.9960],[39.4645,75.9940],[39.443,76.030],[39.470,75.998],[39.4655,75.9860],[39.4745,75.9830]],
+  7:[[39.472,75.985],[39.546,75.947]],
+};
+
+const DAY_COLORS = {1:'#64748b',2:'#0ea5e9',3:'#f59e0b',4:'#8b5cf6',5:'#ef4444',6:'#10b981',7:'#6366f1'};
+const BASE_KM = 1225;
+
+/* ================= 地图 ================= */
+const map = L.map('map', { attributionControl:false, scrollWheelZoom:true }).setView([38.35,76.2],6);
+
+const baseVec = L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', { subdomains:'1234', maxZoom:18 }).addTo(map);
+const baseSat = L.layerGroup([
+  L.tileLayer('https://webst0{s}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}', { subdomains:'1234', maxZoom:18 }),
+  L.tileLayer('https://webst0{s}.is.autonavi.com/appmaptile?style=8&x={x}&y={y}&z={z}', { subdomains:'1234', maxZoom:18 }),
+]);
+
+const markers = [];       // 所有点位
+const polylines = [];     // 所有路线
+const dayRoutes = {};     // day -> polyline
+const decMarkers = {};
+const allBounds = [];
+const dayBounds = {};
+const state = {};         // decision key -> selected option id
+let curDay = 0;           // 当前筛选的天（0 = 全部）
+
+/* 决策点当前路由：决策里带 route 的选项优先，否则用 BASE/其他决策覆盖后的 */
+function routeForDay(day) {
+  let pts = BASE_ROUTES[day];
+  DECISIONS.filter(d => d.day === day && d.opts[state[d.key]] && d.opts[state[d.key]].route)
+           .forEach(d => { pts = d.opts[state[d.key]].route; });
+  return pts;
+}
+
+function drawDayRoute(day) {
+  if (dayRoutes[day]) { map.removeLayer(dayRoutes[day]); const i = polylines.indexOf(dayRoutes[day]); if (i > -1) polylines.splice(i, 1); }
+  const pts = routeForDay(day);
+  if (!pts) return;
+  const line = L.polyline(pts, { color:DAY_COLORS[day], weight:4, opacity:.8 }).bindTooltip(`D${day} 路线`, { sticky:true });
+  line.day = day;
+  polylines.push(line);
+  if (!curDay || curDay === day) line.addTo(map);
+  dayRoutes[day] = line;
+}
+
+function spotPopup(s) {
+  const c = CATS[s.cat];
+  return `<b>${c.emoji} ${s.name}</b><span class="ptag" style="background:${c.color}">${c.label}</span><br>
+    <span class="ptime">🕘 D${s.day} · ${s.time}</span><br>${s.desc}${s.tip ? `<br><span class="ptip">💡 ${s.tip}</span>` : ''}`;
+}
+
+function decPopup(d) {
+  const sel = state[d.key];
+  let btns = '';
+  for (const [id, o] of Object.entries(d.opts)) {
+    btns += `<button class="decbtn ${id === sel ? 'sel' : ''}" onclick="chooseDec('${d.key}','${id}')">${o.label}${id === sel ? '<span class="cur">← 当前</span>' : ''}</button>`;
+  }
+  return `<b>🔀 ${d.name}</b><span class="ptag" style="background:${CATS.dec.color}">D${d.day} 决策</span><br>
+    <span class="ptime">🗓️ D${d.day} · 点击选项切换方案</span><br>${d.desc}${btns}`;
+}
+
+/* 普通点位 */
+SPOTS.forEach(s => {
+  const c = CATS[s.cat];
+  const icon = L.divIcon({ className:'', html:`<div class="marker" style="background:${c.color}">${c.emoji}</div>`, iconSize:[28,28], iconAnchor:[14,14], popupAnchor:[0,-14] });
+  const m = L.marker(s.pos, { icon }).bindPopup(spotPopup(s), { maxWidth:280 }).addTo(map);
+  m.day = s.day;
+  markers.push(m);
+  (dayBounds[s.day] = dayBounds[s.day] || []).push(s.pos);
+  allBounds.push(s.pos);
+});
+
+/* 决策点位 */
+DECISIONS.forEach(d => {
+  state[d.key] = d.def;
+  const icon = L.divIcon({ className:'', html:`<div class="marker dec" style="background:${CATS.dec.color}">🔀</div>`, iconSize:[28,28], iconAnchor:[14,14], popupAnchor:[0,-14] });
+  const m = L.marker(d.pos, { icon }).bindPopup(decPopup(d), { minWidth:260 }).addTo(map);
+  m.day = d.day;
+  markers.push(m);
+  decMarkers[d.key] = m;
+  (dayBounds[d.day] = dayBounds[d.day] || []).push(d.pos);
+  allBounds.push(d.pos);
+});
+
+/* 初始路线 */
+[2,3,4,5,6,7].forEach(drawDayRoute);
+
+/* ================= 选择决策 ================= */
+function rebuildTable() {
+  DECISIONS.forEach(d => {
+    const cell = document.getElementById('hl' + d.day);
+    if (!cell) return;
+    const parts = [];
+    if (d.fixed) parts.push(d.fixed);
+    parts.push(`<span class="decmark">${d.opts[state[d.key]].text}</span>`);
+    cell.innerHTML = parts.join('；');
+  });
+  const km = BASE_KM + DECISIONS.reduce((sum, d) => sum + d.opts[state[d.key]].km, 0);
+  document.getElementById('statKm').innerHTML = `≈${km.toLocaleString()}<small> 公里</small>`;
+}
+
+window.chooseDec = function (key, optId) {
+  const d = DECISIONS.find(x => x.key === key);
+  if (!d || !d.opts[optId] || state[key] === optId) return;
+  state[key] = optId;
+  drawDayRoute(d.day);
+  rebuildTable();
+  const m = decMarkers[key];
+  m.setPopupContent(decPopup(d));
+  m.openPopup();
+};
+rebuildTable();
+
+/* ================= 筛选 ================= */
+function applyDay(dnum) {
+  curDay = dnum;
+  markers.forEach(m => { if (!dnum || m.day === dnum) { if (!map.hasLayer(m)) m.addTo(map); } else map.removeLayer(m); });
+  polylines.forEach(l => { if (!dnum || l.day === dnum) { if (!map.hasLayer(l)) l.addTo(map); } else map.removeLayer(l); });
+  document.querySelectorAll('.daybar button').forEach(b => b.classList.toggle('on', +b.dataset.day === dnum));
+  document.querySelectorAll('#sumTable tbody tr').forEach(tr => tr.classList.toggle('on', +tr.dataset.day === dnum));
+  if (!dnum) map.fitBounds(L.latLngBounds(allBounds).pad(0.12));
+  else map.fitBounds(L.latLngBounds(dayBounds[dnum]).pad(0.25));
+}
+
+const daybar = L.control({ position:'topleft' });
+daybar.onAdd = function () {
+  const div = L.DomUtil.create('div', 'daybar');
+  let html = `<button data-day="0" class="on">全部</button>`;
+  for (let d = 2; d <= 7; d++) html += `<button data-day="${d}">D${d} · 10.${d}</button>`;
+  div.innerHTML = html;
+  L.DomEvent.disableClickPropagation(div);
+  div.addEventListener('click', e => { if (e.target.dataset.day !== undefined) applyDay(+e.target.dataset.day); });
+  return div;
+};
+daybar.addTo(map);
+
+/* ================= 图例 + 底图切换 ================= */
+const legend = L.control({ position:'topright' });
+legend.onAdd = function () {
+  const div = L.DomUtil.create('div', 'legend');
+  div.innerHTML =
+    Object.values(CATS).map(c => `<div class="it"><span class="sw" style="background:${c.color}"></span>${c.emoji} ${c.label}</div>`).join('') +
+    `<div class="base">
+      <button id="btVec" class="on">行政区划图</button>
+      <button id="btSat">影像地形图</button>
+    </div>`;
+  L.DomEvent.disableClickPropagation(div);
+  return div;
+};
+legend.addTo(map);
+
+document.getElementById('btVec').onclick = () => { map.removeLayer(baseSat); baseVec.addTo(map); document.getElementById('btVec').classList.add('on'); document.getElementById('btSat').classList.remove('on'); };
+document.getElementById('btSat').onclick = () => { map.removeLayer(baseVec); baseSat.addTo(map); document.getElementById('btSat').classList.add('on'); document.getElementById('btVec').classList.remove('on'); };
+
+/* 表格行点击 → 定位该天 */
+document.querySelectorAll('#sumTable tbody tr').forEach(tr =>
+  tr.addEventListener('click', () => applyDay(+tr.dataset.day === curDay ? 0 : +tr.dataset.day)));
+
+map.fitBounds(L.latLngBounds(allBounds).pad(0.12));
+</script>
+</body>
+</html>
