@@ -10,77 +10,77 @@
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
     font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-    background:#f7f4ef; color:#292524; line-height:1.6;
+    background:#f0f5f9; color:#1f2937; line-height:1.6;
   }
   .wrap { max-width:1080px; margin:0 auto; padding:0 16px 48px; }
 
   /* ---------- header ---------- */
   header { text-align:center; padding:36px 8px 20px; }
-  header h1 { font-size:clamp(22px,4vw,34px); letter-spacing:.12em; color:#7c2d12; }
-  header h1 .dot { color:#b45309; }
-  header .sub { margin-top:8px; font-size:14px; color:#78716c; }
-  header .sub b { color:#44403c; }
+  header h1 { font-size:clamp(22px,4vw,34px); letter-spacing:.12em; color:#1e5aa8; }
+  header h1 .dot { color:#0891b2; }
+  header .sub { margin-top:8px; font-size:14px; color:#64748b; }
+  header .sub b { color:#334155; }
 
   /* ---------- stat cards ---------- */
   .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin:18px 0 14px; }
-  .stat { background:#fff; border-radius:14px; padding:14px 10px; text-align:center; box-shadow:0 1px 4px rgba(68,64,60,.08); border-top:3px solid #b45309; }
-  .stat .num { font-size:clamp(20px,3vw,26px); font-weight:700; color:#7c2d12; }
-  .stat .num small { font-size:13px; font-weight:600; color:#a8a29e; }
-  .stat .lbl { font-size:12px; color:#78716c; margin-top:2px; }
+  .stat { background:#fff; border-radius:14px; padding:14px 10px; text-align:center; box-shadow:0 1px 4px rgba(30,58,95,.10); border-top:3px solid #0891b2; }
+  .stat .num { font-size:clamp(20px,3vw,26px); font-weight:700; color:#1e5aa8; }
+  .stat .num small { font-size:13px; font-weight:600; color:#94a3b8; }
+  .stat .lbl { font-size:12px; color:#64748b; margin-top:2px; }
 
   /* ---------- map ---------- */
-  #map { height:min(72vh,680px); min-height:420px; border-radius:16px; box-shadow:0 4px 18px rgba(68,64,60,.15); z-index:1; }
-  .map-note { text-align:center; font-size:12px; color:#a8a29e; margin-top:8px; }
+  #map { height:min(72vh,680px); min-height:420px; border-radius:16px; box-shadow:0 4px 18px rgba(30,58,95,.18); z-index:1; }
+  .map-note { text-align:center; font-size:12px; color:#94a3b8; margin-top:8px; }
 
   .legend { background:rgba(255,255,255,.94); border-radius:12px; padding:10px 12px; box-shadow:0 2px 8px rgba(0,0,0,.18); font-size:12px; line-height:1.9; }
   .legend .it { display:flex; align-items:center; gap:8px; white-space:nowrap; }
   .legend .sw { width:12px; height:12px; border-radius:50%; flex:none; box-shadow:inset 0 0 0 2px rgba(255,255,255,.7); }
-  .legend .base { margin-top:6px; padding-top:6px; border-top:1px dashed #d6d3d1; display:flex; gap:6px; }
-  .legend .base button { font-size:12px; border:1px solid #d6d3d1; background:#fff; border-radius:8px; padding:2px 8px; cursor:pointer; }
-  .legend .base button.on { background:#7c2d12; color:#fff; border-color:#7c2d12; }
+  .legend .base { margin-top:6px; padding-top:6px; border-top:1px dashed #cbd5e1; display:flex; gap:6px; }
+  .legend .base button { font-size:12px; border:1px solid #cbd5e1; background:#fff; border-radius:8px; padding:2px 8px; cursor:pointer; }
+  .legend .base button.on { background:#1e5aa8; color:#fff; border-color:#1e5aa8; }
 
   .daybar { background:rgba(255,255,255,.94); border-radius:12px; padding:8px 10px; box-shadow:0 2px 8px rgba(0,0,0,.18); display:flex; flex-wrap:wrap; gap:6px; max-width:340px; }
-  .daybar button { font-size:12px; border:1px solid #e7e5e4; background:#fff; border-radius:999px; padding:3px 10px; cursor:pointer; color:#57534e; }
-  .daybar button.on { background:#b45309; color:#fff; border-color:#b45309; }
+  .daybar button { font-size:12px; border:1px solid #dbe7f3; background:#fff; border-radius:999px; padding:3px 10px; cursor:pointer; color:#475569; }
+  .daybar button.on { background:#0891b2; color:#fff; border-color:#0891b2; }
 
   .marker { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; color:#fff; border:2px solid #fff; box-shadow:0 2px 6px rgba(0,0,0,.35); }
-  .marker.dec { box-shadow:0 0 0 3px rgba(217,119,6,.45), 0 2px 6px rgba(0,0,0,.35); animation:pulse 1.6s infinite; }
-  @keyframes pulse { 0%,100% { box-shadow:0 0 0 3px rgba(217,119,6,.45), 0 2px 6px rgba(0,0,0,.35); } 50% { box-shadow:0 0 0 8px rgba(217,119,6,.12), 0 2px 6px rgba(0,0,0,.35); } }
+  .marker.dec { box-shadow:0 0 0 3px rgba(245,158,11,.45), 0 2px 6px rgba(0,0,0,.35); animation:pulse 1.6s infinite; }
+  @keyframes pulse { 0%,100% { box-shadow:0 0 0 3px rgba(245,158,11,.45), 0 2px 6px rgba(0,0,0,.35); } 50% { box-shadow:0 0 0 8px rgba(245,158,11,.12), 0 2px 6px rgba(0,0,0,.35); } }
 
   .leaflet-popup-content { font-size:13px; margin:10px 12px; width:auto !important; }
   .leaflet-popup-content b { font-size:14px; }
   .ptag { display:inline-block; font-size:11px; color:#fff; border-radius:4px; padding:0 6px; margin-left:6px; vertical-align:1px; }
-  .ptime { color:#b45309; font-weight:600; }
-  .ptip { color:#78716c; font-size:12px; }
+  .ptime { color:#0891b2; font-weight:600; }
+  .ptip { color:#64748b; font-size:12px; }
 
-  .decbtn { display:block; width:100%; margin:5px 0 0; padding:5px 10px; font-size:12.5px; text-align:left; border:1px solid #e7e5e4; border-radius:8px; background:#fff; cursor:pointer; color:#44403c; }
-  .decbtn:hover { border-color:#d97706; background:#fffbeb; }
-  .decbtn.sel { background:#d97706; border-color:#d97706; color:#fff; font-weight:600; }
+  .decbtn { display:block; width:100%; margin:5px 0 0; padding:5px 10px; font-size:12.5px; text-align:left; border:1px solid #dbe7f3; border-radius:8px; background:#fff; cursor:pointer; color:#334155; }
+  .decbtn:hover { border-color:#0891b2; background:#ecfeff; }
+  .decbtn.sel { background:#0891b2; border-color:#0891b2; color:#fff; font-weight:600; }
   .decbtn .cur { font-size:11px; margin-left:4px; }
 
   /* ---------- sections ---------- */
-  section { margin-top:34px; background:#fff; border-radius:16px; padding:22px 24px; box-shadow:0 1px 4px rgba(68,64,60,.08); }
-  h2 { font-size:19px; color:#7c2d12; margin-bottom:14px; letter-spacing:.05em; }
-  h3 { font-size:15px; color:#92400e; margin:16px 0 8px; }
+  section { margin-top:34px; background:#fff; border-radius:16px; padding:22px 24px; box-shadow:0 1px 4px rgba(30,58,95,.08); }
+  h2 { font-size:19px; color:#1e5aa8; margin-bottom:14px; letter-spacing:.05em; }
+  h3 { font-size:15px; color:#0e7490; margin:16px 0 8px; }
 
   table { width:100%; border-collapse:collapse; font-size:13.5px; }
-  th, td { padding:9px 10px; border-bottom:1px solid #f0ebe4; text-align:left; vertical-align:top; }
-  th { background:#faf6f0; color:#7c2d12; font-weight:600; white-space:nowrap; }
+  th, td { padding:9px 10px; border-bottom:1px solid #e8eef5; text-align:left; vertical-align:top; }
+  th { background:#eef4fb; color:#1e5aa8; font-weight:600; white-space:nowrap; }
   tbody tr { cursor:pointer; transition:background .15s; }
-  tbody tr:hover { background:#faf6f0; }
-  tbody tr.on { background:#fdf3e7; }
-  td.d { white-space:nowrap; font-weight:700; color:#b45309; }
-  td .decmark { color:#b45309; font-weight:600; }
+  tbody tr:hover { background:#eef4fb; }
+  tbody tr.on { background:#e0f2fe; }
+  td.d { white-space:nowrap; font-weight:700; color:#0891b2; }
+  td .decmark { color:#0891b2; font-weight:600; }
 
   ul, ol { padding-left:20px; }
   li { margin:4px 0; font-size:13.5px; }
   .two-col { display:grid; grid-template-columns:1fr 1fr; gap:0 28px; }
 
-  details { border:1px solid #eee4d8; border-radius:12px; padding:10px 16px; margin-top:12px; background:#fffdf9; }
-  details summary { font-weight:600; color:#92400e; cursor:pointer; font-size:14px; }
+  details { border:1px solid #dbe7f3; border-radius:12px; padding:10px 16px; margin-top:12px; background:#f8fbfe; }
+  details summary { font-weight:600; color:#0e7490; cursor:pointer; font-size:14px; }
   details ol { margin-top:8px; }
 
-  footer { text-align:center; font-size:12px; color:#a8a29e; margin-top:36px; line-height:1.8; }
+  footer { text-align:center; font-size:12px; color:#94a3b8; margin-top:36px; line-height:1.8; }
 
   @media (max-width:640px) {
     .two-col { grid-template-columns:1fr; }
@@ -96,16 +96,16 @@
   <header>
     <h1>行至南疆 <span class="dot">·</span> 方知西域</h1>
     <div class="sub">
-      <b>喀什取车 / 还车 · 自驾环线</b> · 2026.10.1 – 10.7 · 喀什 → 英吉沙 → 莎车 → 塔县 → 帕米尔<br>
-      地图可缩放拖动 · 点击金色 🔀 圆点选择行程分支 · 路线 / 摘要 / 里程实时更新 · 左上角按天筛选
+      <b>喀什取车 / 还车 · 自驾环线</b> · 2026.10.1 16:00 抵 – 10.7 11:45 离 · 喀什 → 英吉沙 → 莎车(金湖杨) → 塔县 → 帕米尔<br>
+      地图可缩放拖动 · 点击金色 🔀 圆点选择行程分支（西极 / 金湖杨 / 木吉火山等）· 路线 / 摘要 / 里程实时更新 · 左上角按天筛选
     </div>
   </header>
 
   <div class="stats">
-    <div class="stat"><div class="num">7<small> 天 6 晚</small></div><div class="lbl">10.1 取车 – 10.7 还车</div></div>
-    <div class="stat"><div class="num" id="statKm">≈1,225<small> 公里</small></div><div class="lbl" id="statKmLbl">按当前选择合计</div></div>
+    <div class="stat"><div class="num">7<small> 天 6 晚</small></div><div class="lbl">10.1 16:00 取车 – 10.7 11:45 还车</div></div>
+    <div class="stat"><div class="num" id="statKm">≈1,325<small> 公里</small></div><div class="lbl" id="statKmLbl">按当前选择合计</div></div>
     <div class="stat"><div class="num">≈3,500<small> 元/人</small></div><div class="lbl">4人拼车 · 食宿油费门票（不含机票）</div></div>
-    <div class="stat"><div class="num">5<small> 个</small></div><div class="lbl">可选决策点（金色圆点）</div></div>
+    <div class="stat"><div class="num">7<small> 个</small></div><div class="lbl">可选决策点（金色圆点）</div></div>
     <div class="stat"><div class="num">≈4,700<small> m</small></div><div class="lbl">最高海拔（红其拉甫国门）</div></div>
   </div>
 
@@ -117,13 +117,13 @@
     <table id="sumTable">
       <thead><tr><th>天</th><th>路线</th><th>亮点 / 决策</th></tr></thead>
       <tbody>
-        <tr data-day="1"><td class="d">D1 · 10.1</td><td>飞抵喀什 → 机场取车</td><td>办理入住；晚上古城夜市自由活动</td></tr>
-        <tr data-day="2"><td class="d">D2 · 10.2</td><td>喀什城区一日</td><td>艾提尕尔清真寺 → 古城西城/东城 → 香妃园 → 汗巴扎夜市</td></tr>
-        <tr data-day="3"><td class="d">D3 · 10.3</td><td>喀什 → 英吉沙 → 莎车 →（N39 沙漠）→ 莎车</td><td id="hl3"></td></tr>
+        <tr data-day="1"><td class="d">D1 · 10.1</td><td>飞抵喀什 16:00 → 机场取车</td><td>办理入住；晚上古城夜市自由活动</td></tr>
+        <tr data-day="2"><td class="d">D2 · 10.2</td><td>喀什城区一日 / 西极一日（可切换）</td><td id="hl2"></td></tr>
+        <tr data-day="3"><td class="d">D3 · 10.3</td><td>喀什 → 英吉沙 → 莎车 →（金湖杨 / N39）→ 莎车</td><td id="hl3"></td></tr>
         <tr data-day="4"><td class="d">D4 · 10.4</td><td>莎车 → 塔县（两种走法）</td><td id="hl4"></td></tr>
         <tr data-day="5"><td class="d">D5 · 10.5</td><td>塔县 → 盘龙古道 →（红其拉甫国门）→ 塔合曼 → 塔县</td><td id="hl5"></td></tr>
-        <tr data-day="6"><td class="d">D6 · 10.6</td><td>塔县 → 白沙湖 → 慕士塔格 → 奥依塔克 → 喀什</td><td id="hl6"></td></tr>
-        <tr data-day="7"><td class="d">D7 · 10.7</td><td>喀什 → 机场还车返程</td><td>直飞上海 / 杭州（以航司及 12306 发布为准）</td></tr>
+        <tr data-day="6"><td class="d">D6 · 10.6</td><td>塔县 → 白沙湖 → 慕士塔格 →（木吉火山）→ 喀什</td><td id="hl6"></td></tr>
+        <tr data-day="7"><td class="d">D7 · 10.7</td><td>喀什 → 机场还车（11:45 离港）</td><td>直飞上海（以航司及 12306 发布为准）</td></tr>
       </tbody>
     </table>
   </section>
@@ -132,7 +132,7 @@
     <h2>🚗 自驾要点</h2>
     <ul>
       <li><b>租车</b>：喀什机场 / 城区取还，建议 SUV（帕米尔路段底盘更从容）；国庆为旺季，<b>提前 2–3 周预订</b>，验车拍照留底</li>
-      <li><b>边防证（必办）</b>：前往塔县需办理，免费——户籍地出入境管理部门可办，或到喀什后办理；去红其拉甫国门需注明，<b>出发前确认口岸对游客开放及预约要求</b></li>
+      <li><b>边防证（必办）</b>：前往塔县、木吉、西极等边境方向均需办理，免费——户籍地出入境管理部门可办，或到喀什后办理；去红其拉甫国门需注明，<b>出发前确认口岸对游客开放及预约要求</b></li>
       <li><b>加油</b>：喀什出发前加满；塔县有加油站，油箱过半就加；帕米尔沿线加油站少，勿抱侥幸</li>
       <li><b>路况与限速</b>：G314 中巴友谊公路全程柏油但<b>区间测速密集</b>，按限速开；塔莎古道窄路临崖、会车小心，雨后落石不进；盘龙古道 10 月可能因雪临时封路，出发当天再确认</li>
       <li><b>高原驾驶</b>：塔县 3100m 以上缓给油、少急刹；驾驶员高反比乘客更危险，不适立即换人或下撤</li>
@@ -161,10 +161,11 @@
         <ul>
           <li>香妃园 ≈30 · 阿曼尼莎汗王陵 ≈30</li>
           <li>英吉沙土陶体验 ≈30 · 莎车十二木卡姆演出（视排期）</li>
-          <li>N39 沙漠（含区间车）≈60</li>
+          <li>泽普金湖杨（5A，含区间车）≈60–100 · N39 沙漠（含区间车）≈60</li>
           <li>石头城 + 金草滩 ≈45</li>
           <li>红其拉甫国门门票 + 接驳车 ≈120</li>
           <li>白沙湖 ≈40 · 慕士塔格冰川公园（含区间车，不含骑马）≈80–130</li>
+          <li>木吉火山口（视开放）≈0–50 · 西极石碑（免费）</li>
           <li>艾提尕尔清真寺当前公告免费 · 喀拉库勒湖远观免费</li>
         </ul>
       </div>
@@ -174,9 +175,9 @@
   <section>
     <h2>✈️ 大交通参考</h2>
     <ul>
-      <li><b>去程 10.1</b>：上海 → 喀什（飞机直达）；杭州 → 喀什（飞机直达）</li>
-      <li><b>返程 10.7</b>：喀什 → 上海（飞机直达）</li>
-      <li>建议<b>上午航班抵达</b>取车从容、<b>中午后航班返程</b>留足还车时间；以航司及 12306 发布为准</li>
+      <li><b>去程 10.1</b>：上海 → 喀什（飞机直达），16:00 抵达后取车入住</li>
+      <li><b>返程 10.7</b>：喀什 → 上海（飞机直达），11:45 离港（09:45 前还车）</li>
+      <li>以航司及 12306 发布为准；还车预留充足时间</li>
     </ul>
   </section>
 
@@ -195,6 +196,8 @@
     <h2>💡 Tips & 旅游建议</h2>
     <ul>
       <li>白沙湖清晨风小、光线好，D6 建议 09:00 前到</li>
+      <li>泽普金湖杨国庆正值金秋最佳观赏期，建议下午光线柔和时到；西极石碑日落最晚、返程夜路长，注意控速</li>
+      <li>木吉火山需边防证、部分路段为县道/边防路，路况一般，去之前确认天气与通行状态</li>
       <li>国门海拔 4700m：放慢动作、别奔跑拍照；不适立即下撤</li>
       <li>盘龙古道观景台车多，错峰拍照注意来车</li>
       <li>餐饮可 AA：拉面群、烤肉群灵活拼餐更有趣</li>
@@ -228,7 +231,7 @@
 const CATS = {
   route : { color:'#2563eb', emoji:'📍', label:'固定行程点' },
   new   : { color:'#0d9488', emoji:'🆕', label:'自驾新增点' },
-  dec   : { color:'#d97706', emoji:'🔀', label:'可选决策点' },
+  dec   : { color:'#f59e0b', emoji:'🔀', label:'可选决策点' },
   ticket: { color:'#16a34a', emoji:'🎫', label:'含票体验' },
   food  : { color:'#ea580c', emoji:'🍜', label:'特色餐饮' },
   stay  : { color:'#7c3aed', emoji:'🏨', label:'住宿点' },
@@ -236,8 +239,8 @@ const CATS = {
 };
 
 const SPOTS = [
-  { day:1, cat:'route',  name:'喀什机场 · 取车',                pos:[39.543,75.950],  time:'抵达后',      desc:'机场取预订 SUV，验车拍照留底。', tip:'开往市区约 20 分钟' },
-  { day:1, cat:'stay',   name:'喀什 · 入住',                    pos:[39.472,75.985],  time:'下午',        desc:'古城周边办理入住，安顿休整。', tip:'晚上古城夜市自由活动，品尝美食' },
+  { day:1, cat:'route',  name:'喀什机场 · 取车',                pos:[39.543,75.950],  time:'16:00 抵达',  desc:'机场取预订 SUV，验车拍照留底。', tip:'开往市区约 20 分钟' },
+  { day:1, cat:'stay',   name:'喀什 · 入住',                    pos:[39.472,75.985],  time:'傍晚',        desc:'古城周边办理入住，安顿休整。', tip:'晚上古城夜市自由活动，品尝美食' },
   { day:2, cat:'route',  name:'艾提尕尔清真寺',                 pos:[39.4690,75.9885], time:'10:00',      desc:'全国最大清真寺之一，喀什地标。', tip:'门票当前景区公告免费' },
   { day:2, cat:'route',  name:'喀什古城（西城 → 东城）',        pos:[39.4665,75.9960], time:'10:30–',     desc:'2000 余年「古西域城市活化石」，拍照超美。', tip:'开城仪式、职人街、彩虹巷都值得慢逛' },
   { day:2, cat:'food',   name:'午餐 · 烤包子 / 羊肉串 / 抓饭',  pos:[39.4645,75.9940], time:'13:30',      desc:'古城内美食（自理）。', tip:'' },
@@ -260,20 +263,34 @@ const SPOTS = [
   { day:6, cat:'new',    name:'奥依塔克红山谷（顺路）',         pos:[39.13,75.64],     time:'顺路',       desc:'自驾新增：G314 沿线丹霞红岩，短途打卡拍照。', tip:'免费，路边停车注意安全' },
   { day:6, cat:'food',   name:'晚餐 · 牦牛火锅',                pos:[39.4690,75.9955], time:'19:00',      desc:'回到喀什，高原特色牦牛火锅收尾。', tip:'' },
   { day:6, cat:'stay',   name:'宿 喀什',                        pos:[39.472,75.985],   time:'晚',         desc:'喀什城区住宿（还车前最后一晚）。', tip:'' },
-  { day:7, cat:'route',  name:'喀什机场 · 还车返程',            pos:[39.546,75.947],   time:'全天',       desc:'加满油还车，直飞上海 / 杭州。', tip:'预留 2h 还车 + 安检；以航司及 12306 信息为准' },
+  { day:7, cat:'route',  name:'喀什机场 · 还车返程',            pos:[39.546,75.947],   time:'上午',       desc:'加满油还车（09:45 前），直飞上海。', tip:'预留 2h 还车 + 安检；以航司及 12306 信息为准' },
 ];
 
 /* ================= 决策点 ================= */
 const DECISIONS = [
   {
-    key:'n39', day:3, pos:[38.95,77.88], name:'N39 沙漠 · 去不去？',
-    desc:'麦盖提方向塔克拉玛干沙漠 4A 景区（北纬 39° 得名），日落大气；但往返多跑约 120km。',
-    def:'go',
+    key:'xiji', day:2, pos:[39.73,73.98], name:'D2 · 喀什城市一日 还是 西极？',
+    desc:'西极石碑位于乌恰县吉根乡斯姆哈纳村（中国大陆最西端，最晚日落），距喀什往返约 400km 需一整天；喀什城市一日则从容逛古城。',
+    def:'city',
     opts:{
-      go  :{ label:'✅ 去 N39 看日落', text:'N39 沙漠日落（门票+区间车 ≈60）', km:0,
-             route:[[39.472,75.985],[39.20,76.08],[38.930,76.175],[38.65,76.70],[38.4175,77.2495],[38.68,77.55],[38.95,77.88],[38.68,77.55],[38.4145,77.2405]] },
-      skip:{ label:'⏭️ 不去，莎车早休（次日赶路）', text:'不去 N39，莎车晚餐后早休', km:-120,
-             route:[[39.472,75.985],[39.20,76.08],[38.930,76.175],[38.65,76.70],[38.4175,77.2495],[38.4145,77.2405]] },
+      city:{ label:'🏙️ 喀什城市一日（古城·香妃园）', text:'喀什城市一日：艾提尕尔→古城→香妃园→汗巴扎', km:0,
+             route:[[39.4690,75.9885],[39.4665,75.9960],[39.4645,75.9940],[39.443,76.030],[39.470,75.998],[39.4655,75.9860],[39.4745,75.9830]] },
+      xiji:{ label:'🌅 西极一日（最西端·最晚日落）', text:'西极一日：乌恰→吉根→西极石碑', km:370,
+             route:[[39.472,75.985],[39.60,75.50],[39.72,75.26],[39.73,74.30],[39.73,73.98],[39.73,74.30],[39.72,75.26],[39.60,75.50],[39.472,75.985]] },
+    },
+    fixed:'',
+  },
+  {
+    key:'d3pm', day:3, pos:[38.03,76.96], name:'D3 下午 · 加点？',
+    desc:'泽普金湖杨 5A：金秋胡杨临叶尔羌河，国庆正值最佳观赏期；N39 沙漠（北纬 39°）日落大气；也可不加点早休。',
+    def:'huyang',
+    opts:{
+      huyang:{ label:'🍂 泽普金湖杨（金秋胡杨·5A）', text:'泽普金湖杨（金秋胡杨·5A）', km:0,
+               route:[[39.472,75.985],[39.20,76.08],[38.930,76.175],[38.65,76.70],[38.4175,77.2495],[38.03,76.96],[38.4145,77.2405]] },
+      n39  :{ label:'🏜️ N39 沙漠日落（门票+区间车≈60）', text:'N39 沙漠日落（门票+区间车 ≈60）', km:30,
+               route:[[39.472,75.985],[39.20,76.08],[38.930,76.175],[38.65,76.70],[38.4175,77.2495],[38.68,77.55],[38.95,77.88],[38.68,77.55],[38.4145,77.2405]] },
+      skip :{ label:'⏭️ 都不去，莎车早休', text:'都不加，莎车晚餐后早休', km:-90,
+               route:[[39.472,75.985],[39.20,76.08],[38.930,76.175],[38.65,76.70],[38.4175,77.2495],[38.4145,77.2405]] },
     },
     fixed:'英吉沙土陶体验、烤肉午餐；阿曼尼莎汗王陵',
   },
@@ -323,15 +340,24 @@ const DECISIONS = [
     },
     fixed:'白沙湖（09:00 前）；奥依塔克红山谷顺路；牦牛火锅',
   },
+  {
+    key:'muji', day:6, pos:[39.00,74.43], name:'木吉火山 · 去/不去？',
+    desc:'「帕米尔之眼」木吉火山群（喀日铁米尔），海拔约 3500m 的新疆最高火山口；从白沙湖/布伦口西绕约 60–70km，需边防证。',
+    def:'go',
+    opts:{
+      go  :{ label:'🌋 去木吉火山（帕米尔之眼）', text:'木吉火山（西绕约 130km·需边防证）', km:0 },
+      skip:{ label:'⏭️ 不去，D6 从容返喀什', text:'不去木吉（省约 130km）', km:-130 },
+    },
+    fixed:'',
+  },
 ];
 
 const BASE_ROUTES = {
-  2:[[39.4690,75.9885],[39.4665,75.9960],[39.4645,75.9940],[39.443,76.030],[39.470,75.998],[39.4655,75.9860],[39.4745,75.9830]],
   7:[[39.472,75.985],[39.546,75.947]],
 };
 
 const DAY_COLORS = {1:'#64748b',2:'#0ea5e9',3:'#f59e0b',4:'#8b5cf6',5:'#ef4444',6:'#10b981',7:'#6366f1'};
-const BASE_KM = 1225;
+const BASE_KM = 1325;
 
 /* ================= 地图 ================= */
 const map = L.map('map', { attributionControl:false, scrollWheelZoom:true }).setView([38.35,76.2],6);
@@ -414,12 +440,16 @@ DECISIONS.forEach(d => {
 
 /* ================= 选择决策 ================= */
 function rebuildTable() {
-  DECISIONS.forEach(d => {
-    const cell = document.getElementById('hl' + d.day);
+  const byDay = {};
+  DECISIONS.forEach(d => { (byDay[d.day] = byDay[d.day] || []).push(d); });
+  Object.entries(byDay).forEach(([day, ds]) => {
+    const cell = document.getElementById('hl' + day);
     if (!cell) return;
     const parts = [];
-    if (d.fixed) parts.push(d.fixed);
-    parts.push(`<span class="decmark">${d.opts[state[d.key]].text}</span>`);
+    ds.forEach(d => {
+      if (d.fixed) parts.push(d.fixed);
+      parts.push(`<span class="decmark">${d.opts[state[d.key]].text}</span>`);
+    });
     cell.innerHTML = parts.join('；');
   });
   const km = BASE_KM + DECISIONS.reduce((sum, d) => sum + d.opts[state[d.key]].km, 0);
