@@ -102,9 +102,9 @@
   </header>
 
   <div class="stats">
-    <div class="stat"><div class="num">7<small> 天 6 晚</small></div><div class="lbl">10.1 13:30/16:00 取车 – 10.7 11:45 还车</div></div>
+    <div class="stat"><div class="num">7<small> 天 6 晚</small></div><div class="lbl">10.1 13:30/16:00 取车 – 10.7 10:30 还车</div></div>
     <div class="stat"><div class="num" id="statKm">≈1,325<small> 公里</small></div><div class="lbl" id="statKmLbl">按当前选择合计</div></div>
-    <div class="stat"><div class="num">≈3,500<small> 元/人</small></div><div class="lbl">4人拼车 · 食宿油费门票（不含机票）</div></div>
+    <div class="stat"><div class="num">≈3,700<small> 元/人</small></div><div class="lbl">4人拼车 · 食宿油费门票（不含机票）</div></div>
     <div class="stat"><div class="num">6<small> 个</small></div><div class="lbl">可选决策点（金色圆点）</div></div>
     <div class="stat"><div class="num">≈4,700<small> m</small></div><div class="lbl">最高海拔（红其拉甫国门）</div></div>
   </div>
@@ -120,7 +120,7 @@
         <tr data-day="4"><td class="d">D4 · 10.4</td><td>莎车 → 塔县（塔莎古道 190km·5-6h / 绕行 480km·7h）</td><td id="hl4"></td></tr>
         <tr data-day="5"><td class="d">D5 · 10.5</td><td>塔县 → 盘龙古道 →（红其拉甫国门）→ 塔合曼 → 塔县 · 约 250km</td><td id="hl5"></td></tr>
         <tr data-day="6"><td class="d">D6 · 10.6</td><td>塔县 → 白沙湖 → 慕士塔格 →（木吉火山）→ 喀什 · 约 500km</td><td id="hl6"></td></tr>
-        <tr data-day="7"><td class="d">D7 · 10.7</td><td>喀什 → 机场还车（11:45 离港）</td><td>返程</td></tr>
+        <tr data-day="7"><td class="d">D7 · 10.7</td><td>喀什 → 机场还车（10:30 还车 · 11:45 离港）</td><td>返程</td></tr>
       </tbody>
     </table>
   </section>
@@ -158,7 +158,7 @@
   <section>
     <h2>🚗 自驾要点</h2>
     <ul>
-      <li><b>租车</b>：喀什机场 / 城区取还，建议 SUV（帕米尔路段底盘更从容）；国庆为旺季，<b>提前 2–3 周预订</b>，验车拍照留底</li>
+      <li><b>租车</b>：已订<b>大众新途观L</b>（SUV，帕米尔路段底盘更从容），10.1 13:30 取车 – 10.7 10:30 还车，租车费 ≈3957 元；验车拍照留底</li>
       <li><b>边防证（必办）</b>：前往塔县、木吉等边境方向均需办理，免费——户籍地出入境管理部门可办，或到喀什后办理；去红其拉甫国门需注明，<b>出发前确认口岸对游客开放及预约要求</b></li>
       <li><b>加油</b>：喀什出发前加满；塔县有加油站，油箱过半就加；帕米尔沿线加油站少，勿抱侥幸</li>
       <li><b>路况与限速</b>：G314 中巴友谊公路全程柏油但<b>区间测速密集</b>，按限速开；塔莎古道窄路临崖、会车小心，雨后落石不进；盘龙古道 10 月可能因雪临时封路，出发当天再确认</li>
@@ -174,12 +174,12 @@
         <table>
           <thead><tr><th>项目</th><th>估算</th></tr></thead>
           <tbody>
-            <tr><td>租车 SUV × 7 天 ÷4</td><td>≈ 700 元</td></tr>
+            <tr><td>租车 大众新途观L × 7 天（3957 元）÷4</td><td>≈ 990 元</td></tr>
             <tr><td>油费 + 过路费 ÷4</td><td>≈ 250 元</td></tr>
             <tr><td>住宿 6 晚（2 人间 ÷2）</td><td>≈ 900 元</td></tr>
             <tr><td>门票体验（见右）</td><td>≈ 550 元</td></tr>
             <tr><td>餐饮 7 天</td><td>≈ 1,000 元</td></tr>
-            <tr><td><b>合计（不含机票）</b></td><td><b>≈ 3,400 – 3,600 元</b></td></tr>
+            <tr><td><b>合计（不含机票）</b></td><td><b>≈ 3,700 元</b></td></tr>
           </tbody>
         </table>
       </div>
@@ -203,7 +203,7 @@
     <h2>✈️ 大交通参考</h2>
     <ul>
       <li><b>去程 10.1</b>：上海 → 喀什（飞机直达，分两班：13:30 / 16:00 抵达），落地后取车入住</li>
-      <li><b>返程 10.7</b>：喀什 → 上海（飞机直达），11:45 离港（09:45 前还车）</li>
+      <li><b>返程 10.7</b>：喀什 → 上海（飞机直达），11:45 离港（10:30 前还车）</li>
       <li>以航司及 12306 发布为准；还车预留充足时间</li>
     </ul>
   </section>
@@ -267,7 +267,7 @@ const CATS = {
 
 const SPOTS = [
   // D1 · 抵达喀什
-  { day:1, cat:'route',  name:'喀什机场 · 取车',               pos:[39.543,75.950],   time:'13:30 / 16:00 两班抵达', dur:'',        desc:'两班落地：13:30 一班、16:00 一班；机场取预订 SUV，验车拍照留底。', leg:'', tip:'开往市区约 12km · 20min' },
+  { day:1, cat:'route',  name:'喀什机场 · 取车',               pos:[39.543,75.950],   time:'13:30 / 16:00 两班抵达', dur:'',        desc:'两班落地：13:30 一班、16:00 一班；机场取预订大众新途观L，验车拍照留底。', leg:'', tip:'开往市区约 12km · 20min' },
   { day:1, cat:'route',  name:'喀什博物馆',                   pos:[39.463,76.005],   time:'15:00',                dur:'约1.5h',  desc:'「喀什地区博物馆」看丝路千年文物与维吾尔民俗，13:30 班先逛。', leg:'机场至此约 15km · 25min', tip:'免费；16:00 班落地后直接入住汇合' },
   { day:1, cat:'stay',   name:'喀什 · 入住',                  pos:[39.472,75.985],   time:'傍晚',                  dur:'',        desc:'古城周边办理入住，安顿休整，两班汇合。', leg:'博物馆至此约 3km · 10min', tip:'晚上古城夜市自由活动' },
   { day:1, cat:'food',   name:'汗巴扎夜市',                   pos:[39.4655,75.9860], time:'20:00',                dur:'约2h',    desc:'古城边夜市，烤蛋、缸子肉、酸奶刨冰。', leg:'', tip:'注意饮食卫生，早点休息' },
@@ -303,7 +303,7 @@ const SPOTS = [
   { day:6, cat:'stay',   name:'宿 喀什',                      pos:[39.472,75.985],   time:'晚',                   dur:'',        desc:'喀什城区住宿（还车前最后一晚）。', leg:'', tip:'' },
 
   // D7 · 返程
-  { day:7, cat:'route',  name:'喀什机场 · 还车返程',          pos:[39.546,75.947],   time:'上午',                  dur:'',        desc:'加满油还车（09:45 前），直飞上海。', leg:'市区至此约 12km · 20min', tip:'预留 2h 还车 + 安检；以航司及 12306 信息为准' },
+  { day:7, cat:'route',  name:'喀什机场 · 还车返程',          pos:[39.546,75.947],   time:'上午',                  dur:'',        desc:'加满油还车（10:30 前），直飞上海。', leg:'市区至此约 12km · 20min', tip:'预留 2h 还车 + 安检；以航司及 12306 信息为准' },
 ];
 
 /* ================= 决策点 ================= */
